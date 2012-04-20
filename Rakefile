@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "facebook-rails-starterkit"
   gem.homepage = "http://github.com/kristianmandrup/facebook-rails-starterkit"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Starterkit for using Facebook with Rails}
+  gem.description = %Q{You make it really simple to get started using Facebook with Rails!}
   gem.email = "kmandrup@gmail.com"
   gem.authors = ["Kristian Mandrup"]
   # dependencies defined in Gemfile

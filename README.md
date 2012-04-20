@@ -1,5 +1,7 @@
 ## Facebook Rails starter kit
 
+This gem leverages the gem: 'joey'. Joey in turn sits on top of 'koala' and uses the 'hashie' gem for easy hash access (as returned by the Facebook graph API via Koala).
+
 In an initializer or similar "boot location" for your app facebook integration:
 
 ```ruby
@@ -8,7 +10,7 @@ Facebook.app = MyCool::FacebookApp.instance
 
 You can then define an app class that implements the following API. 
 
-Note: You may wan to load these values from a yaml file, and have the yaml filename as part of your `.gitignore`. You might want to look at 'facebooker2' gem for inspiration here (fx to support multiple environments).
+Note: You may wan to load these values from a yaml file, and have the yaml filename as part of your `.gitignore`. You might want to look at 'facebooker2' gem for inspiration here (fx to support multiple environments). You have to have (or create) a Facebook App that is linked to your Rails application.
 
 ```ruby
 class MyCool
@@ -30,6 +32,8 @@ class MyCool
 			'http://localhost:3000'
 		end
 
+		# please customize (see Facebook permissions)
+		# https://developers.facebook.com/docs/authentication/permissions/
 		def default_permissions
 	    ["publish_stream", "read_stream", "email"]
 	  end
@@ -61,6 +65,8 @@ Some of the key methods made available are:
 * registration
 
 You can now access the Facebook graph API for the current (session) user.
+
+For this to work, it requires a previous Facebook login which can be done fx via the Facebook login button (see fx 'facebook-social_plugins' gem). Alternatively use OAuth directly.
 
 ## Facebook Graph API
 
