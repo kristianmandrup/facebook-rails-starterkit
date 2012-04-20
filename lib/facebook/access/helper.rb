@@ -10,12 +10,20 @@ module Facebook
         @auth_url =  session[:oauth].url_for_oauth_code(:permissions=> permissions || fb_app.default_permissions)
       end
 
+      def auth_url
+        @auth_url
+      end
+
       def fb_app
         Facebook::App.instance
       end
 
-      def fb_graph_api
+      def fb_graph
         Facebook::GraphApi.new session
+      end
+
+      def fb_my_id
+        fb_graph.my_id
       end
 
       # for FB Registration plugin

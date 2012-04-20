@@ -134,6 +134,17 @@ The following translation keys must be defined in a locale file (or similar i18n
 * facebook.auth.success
 * facebook.auth.destroyed
 
+You can easily customize this module to suit your app by overriding any of the following methods:
+
+* user_authentication_destroyed
+* current_user_authentication
+* authenticated
+* authenticate_user
+* authenticate_new_user
+* authenticated_user_saved
+* authenticated_user_not_saved
+* authentication
+
 ## Mode configuration
 
 ```ruby

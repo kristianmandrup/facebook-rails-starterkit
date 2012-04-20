@@ -1,10 +1,10 @@
 module Facebook
-	def app
+	def self.app
 		Facebook::App.instance
 	end
 
-	def app= app
-		app.fb_app = app
+	def self.app= an_app
+		app.fb_app = an_app
 	end
 		
 	class App
