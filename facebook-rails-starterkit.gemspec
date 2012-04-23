@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = "2012-04-20"
-  s.description = "TODO: longer description of your gem"
+  s.date = "2012-04-23"
+  s.description = "You make it really simple to get started using Facebook with Rails!"
   s.email = "kmandrup@gmail.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "README.md",
     "Rakefile",
     "VERSION",
+    "facebook-rails-starterkit.gemspec",
     "lib/facebook-rails-starterkit.rb",
     "lib/facebook/access/helper.rb",
     "lib/facebook/app.rb",
@@ -37,7 +38,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.22"
-  s.summary = "TODO: one-line summary of your gem"
+  s.summary = "Starterkit for using Facebook with Rails"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3

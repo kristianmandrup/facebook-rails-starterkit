@@ -1,3 +1,4 @@
+require 'config_loader/yaml'
 require 'facebook/app'
 require 'facebook/graph_api'
 require 'facebook/access/helper'

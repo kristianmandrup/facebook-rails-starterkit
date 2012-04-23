@@ -5,7 +5,7 @@ This gem leverages the gem: 'joey'. Joey in turn sits on top of 'koala' and uses
 In an initializer or similar "boot location" for your app facebook integration:
 
 ```ruby
-Facebook.app = MyCool::FacebookApp.instance
+Facebook.app = MyCool::FacebookAppConfig.instance
 ```
 
 You can then define an app class that implements the following API. 
@@ -41,6 +41,42 @@ class MyCool
 end
 ```
 
+```ruby
+class MyCool
+	class FacebookApp
+		include Singleton
+
+		def loader
+			@loader ||= ConfigLoader::Yaml.new 'apis', 'facebook.yml'
+		end
+
+		def secret
+			loader.load.secret
+		end
+	end
+end
+```
+
+Or using the special Delegator module included
+
+```ruby
+class MyCool
+	class FacebookAppConfig
+		include Singleton
+		include ConfigLoader::Delegator
+
+		def loader
+			@loader ||= ConfigLoader::Yaml.new 'apis', 'facebook.yml'
+		end
+	end
+end
+```
+
+Here a call to any method not defined on this app config, will be delegated to the loader, which returns the yaml as a Hashie for direct method access.
+This would allow you to:
+
+`Facebook.app.secret` # => value loaded from 'secret' entry in facebook.yml
+
 ## Facebook access controllers
 
 The module `Facebook::Access::Helper` can be included in controllers that require Facebook access (via signin).
@@ -71,7 +107,7 @@ For this to work, it requires a previous Facebook login which can be done fx via
 ## Facebook Graph API
 
 The `fb_graph` method returns a class with some nice convenience methods. The 
-graph api used is `Koala::Facebook::GraphAndRestAPI` from the `joey` gem, which uses Hashie (see 'hashie' gem) under the covers for easy access into the hashes returned.
+graph api used is `Koala::Facebook::GraphAndRestAPI` from the `joey` gem, which uses Hashie (see `hashie gem) under the covers for easy access into the hashes returned.
 
 * me
 
