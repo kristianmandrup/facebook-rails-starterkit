@@ -1,27 +1,33 @@
 module ConfigLoader
   class Yaml
 		def initialize path, file_name
-			file = file_path path, file_name
-			file += '.yml' unless file ~= /\.ya?ml/
+			@path = path
 
-			Hashie::Mash.new YAML::load File.open(file)
+			file_name += '.yml' unless file_name ~= /\.ya?ml/
+			@file_name = file_name  
+			
+			Hashie::Mash.new yaml
 		end
   	
 		protected
 
-  	def config_path
-			File.join Rails.root, 'config'
+		def yaml
+			@yaml ||= YAML::load File.open(file_path)
 		end
 
-    def file_path path, file_name
-    	File.join config_path, path, file_name
+  	def config_path
+			@config_path ||= File.join Rails.root, 'config'
+		end
+
+    def file_path
+    	@file_path = File.join config_path, path, file_name
     end
 	end
 
-	module Delegator
+	module Delegator				
 	  def method_missing(m, *args, &block)
-	  	raise 'A #loader method must be defined for the LoaderDelegator to work' unless respond_to?(:loader)
-	    loader.send(m)
+	  	raise 'A #config method must be defined for the LoaderDelegator to work' unless respond_to?(:config)
+	    config.send(m)
 	  end
 	end
 end

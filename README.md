@@ -14,7 +14,7 @@ Note: You may wan to load these values from a yaml file, and have the yaml filen
 
 ```ruby
 class MyCool
-	class FacebookApp
+	class FacebookAppConfig
 		include Singleton
 
 		# please change!
@@ -41,9 +41,20 @@ class MyCool
 end
 ```
 
+The `facebook.yml` file in `config/apis`:
+
+```yaml
+id: 219868431409649
+secret: 7e5699f155df01d8e52b35c01dccd627
+url: http://localhost:3000
+default_permissions: ["publish_stream", "read_stream", "email"]
+```
+
+And here how to load it into the AppConfig singleton.
+
 ```ruby
 class MyCool
-	class FacebookApp
+	class FacebookAppConfig
 		include Singleton
 
 		def loader
@@ -57,7 +68,7 @@ class MyCool
 end
 ```
 
-Or using the special Delegator module included
+Or using the special Delegator module included. This module requires a #config method to be defined like so:
 
 ```ruby
 class MyCool
@@ -65,8 +76,8 @@ class MyCool
 		include Singleton
 		include ConfigLoader::Delegator
 
-		def loader
-			@loader ||= ConfigLoader::Yaml.new 'apis', 'facebook.yml'
+		def config
+			@config ||= ConfigLoader::Yaml.new 'apis', 'facebook.yml'
 		end
 	end
 end
