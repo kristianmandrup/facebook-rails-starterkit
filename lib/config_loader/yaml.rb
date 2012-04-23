@@ -3,7 +3,7 @@ module ConfigLoader
 		def initialize path, file_name
 			@path = path
 
-			file_name += '.yml' unless file_name ~= /\.ya?ml/
+			file_name += '.yml' unless file_name =~ /\.ya?ml/
 			@file_name = file_name  
 			
 			Hashie::Mash.new yaml

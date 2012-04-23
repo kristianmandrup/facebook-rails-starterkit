@@ -17,7 +17,7 @@ module Facebook
 
 	  # my_id, my_email ...
 	  [:id, :email, :name, :first_name, :last_name, :username].each do |attribute|
-		  define_method "my_#{attribute}"
+		  define_method "my_#{attribute}" do
 		    instance_variable_set(:"@#{attribute}", me.send(attribute)) unless instance_variable_get(:"@#{attribute}")
 		  end
 		end
@@ -28,17 +28,17 @@ module Facebook
 	  end
 
 	  def my_picture
-	  	api.get_picture(my_id)
+	  	api.get_picture my_id
 	  end
 
 	  def my_messages
-	    api.get_object("/me/statuses", "fields"=>"message")
+	    api.get_object "/me/statuses", "fields"=>"message"
 	  end
 
 	  ## Post
 
 	  def post_on_wall message
-	    api.put_wall_post(message)
+	    api.put_wall_post message
 	  end		
 	end
 end

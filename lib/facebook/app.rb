@@ -1,3 +1,5 @@
+require 'singleton'
+
 module Facebook
 	def self.app
 		Facebook::App.instance

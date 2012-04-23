@@ -1,6 +1,8 @@
+require 'facebook/access/helper'
+
 module Facebook
 	module Auth
-		include Facebook::Helper
+		include Facebook::Access::Helper
 
 		module Devise
 			def index
