@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = "facebook-rails-starterkit"
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
   s.date = "2012-04-23"
-  s.description = "You make it really simple to get started using Facebook with Rails!"
+  s.description = "Make it simple to get started using Facebook with Rails!"
   s.email = "kmandrup@gmail.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "facebook-rails-starterkit.gemspec",
+    "lib/config_loader/yaml.rb",
     "lib/facebook-rails-starterkit.rb",
     "lib/facebook/access/helper.rb",
     "lib/facebook/app.rb",
