@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "facebook-rails-starterkit"
-  s.version = "0.1.2"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
@@ -32,7 +32,10 @@ Gem::Specification.new do |s|
     "lib/facebook/app.rb",
     "lib/facebook/auth/devise.rb",
     "lib/facebook/graph_api.rb",
+    "spec/facebook-rails-starterkit/config_loader/yaml_spec.rb",
     "spec/facebook-rails-starterkit_spec.rb",
+    "spec/fixtures/config/facebook.yml",
+    "spec/fixtures/config/htc.yml",
     "spec/spec_helper.rb"
   ]
   s.homepage = "http://github.com/kristianmandrup/facebook-rails-starterkit"
