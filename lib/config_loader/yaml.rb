@@ -26,7 +26,7 @@ module ConfigLoader
 
 	module Delegator				
 	  def method_missing(m, *args, &block)
-	  	raise 'A #config method must be defined for the LoaderDelegator to work' unless respond_to?(:config)
+	  	raise 'A #config method must be defined in the container for ConfigLoader::Delegator, for it to delegate to #config' unless respond_to?(:config)
 	    config.send(m)
 	  end
 	end
