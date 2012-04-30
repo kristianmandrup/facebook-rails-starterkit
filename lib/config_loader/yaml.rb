@@ -1,12 +1,13 @@
 module ConfigLoader
   class Yaml
-		def initialize path, file_name
+		def initialize path, file_name, root = nil
 			@path = path
 
 			file_name += '.yml' unless file_name =~ /\.ya?ml/
 			@file_name = file_name  
 			
-			Hashie::Mash.new yaml
+			hash = Hashie::Mash.new yaml
+			root ? hash.send(root) : hash
 		end
   	
 		protected
