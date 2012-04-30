@@ -1,7 +1,7 @@
 source :rubygems
 
 # Facebook
-gem 'koala', 	'>= 1.3.0'
+gem 'koala', 	'>= 1.4.0'
 gem 'hashie', '~> 1.2.0'
 gem 'joey', 	'~> 0.1.1', :git => 'git://github.com/kristianmandrup/Joey.git' # wrapper on top of koala
 
