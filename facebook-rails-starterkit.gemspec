@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "facebook-rails-starterkit"
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = "2012-04-23"
+  s.date = "2012-04-30"
   s.description = "Make it simple to get started using Facebook with Rails!"
   s.email = "kmandrup@gmail.com"
   s.extra_rdoc_files = [
@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/kristianmandrup/facebook-rails-starterkit"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.22"
+  s.rubygems_version = "1.8.24"
   s.summary = "Starterkit for using Facebook with Rails"
 
   if s.respond_to? :specification_version then
