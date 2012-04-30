@@ -1,27 +1,36 @@
+require 'hashie'
+
 module ConfigLoader
   class Yaml
-  	attr_reader :path, :file_name, :ext, :file_path, :root, :hash
+  	attr_reader :path, :file_name, :ext, :file_path, :root
 
   	# will try root element if such exists
 		def initialize file_path, root = nil
 			@file_path = file_path
 			@path 		 = File.dirname file_path
 			@file_name = File.basename file_path
-			@ext 	= file_name.split(/(ya?ml$)/).last
-			@root = root || file_name.split('.').first
-			
-			hash = Hashie::Mash.new yaml
-			@hash = hash.send(root) || hash
+			@ext 			 = file_name.split(/(ya?ml$)/).last
+			@root 		 = (root || file_name.split('.').first).to_s
+			@root 		 = nil unless mashie.send(@root)
+			@mashie 	 = mashie.send(@root) if @root
+		end
+
+		def as_hash
+			@as_hash ||= mashie
+		end
+
+		def as_yaml
+			@as_yaml ||= ::YAML::load File.open(config_file_path)
 		end
   	
 		protected
 
-		def yaml
-			@yaml ||= YAML::load File.open(config_file_path)
+		def mashie
+			@mashie ||= ::Hashie::Mash.new as_yaml
 		end
 
     def config_file_path
-    	@config_file_path ||= Rails.root.join('config', file_path)
+    	@config_file_path ||= File.join(Rails.root.to_s, 'config', file_path)
     end
 	end
 
