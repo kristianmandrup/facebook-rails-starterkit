@@ -1,15 +1,17 @@
 module ConfigLoader
   class Yaml
-  	attr_reader :path, :file_name, :file_path, :root, :hash
+  	attr_reader :path, :file_name, :ext, :file_path, :root, :hash
 
+  	# will try root element if such exists
 		def initialize file_path, root = nil
 			@file_path = file_path
 			@path 		 = File.dirname file_path
 			@file_name = File.basename file_path
-			@root = root
+			@ext 	= file_name.split(/(ya?ml$)/).last
+			@root = root || file_name.split('.').first
 			
 			hash = Hashie::Mash.new yaml
-			@hash = root ? hash.send(root) : hash
+			@hash = hash.send(root) || hash
 		end
   	
 		protected
