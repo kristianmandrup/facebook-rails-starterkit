@@ -3,7 +3,7 @@ source :rubygems
 # Facebook
 gem 'koala', 	'>= 1.4.0'
 gem 'hashie', '~> 1.2.0'
-gem 'joey', 	'~> 0.1.1', :git => 'git://github.com/kristianmandrup/Joey.git' # wrapper on top of koala
+gem 'fb_joy', '~> 0.1.2' # Joey with some fixes
 
 group :development, :Test do
   gem "rspec", 		">= 2.8.0"
