@@ -1,6 +1,6 @@
 ## Facebook Rails starter kit
 
-This gem leverages the gem: 'joey'. Joey in turn sits on top of 'koala' and uses the 'hashie' gem for easy hash access (as returned by the Facebook graph API via Koala).
+This gem uses the 'hashie' gem for easy hash access (as returned by the Facebook graph API via Koala).
 
 In an initializer or similar "boot location" for your app facebook integration:
 
@@ -18,7 +18,7 @@ class MyCool
 		include Singleton
 
 		# please change!
-		def id
+		def identifier
 			'219868431409649' 
 		end
 
@@ -28,7 +28,7 @@ class MyCool
 		end
 
 		# please change for staging/production
-		def url
+		def site_url
 			'http://localhost:3000'
 		end
 
@@ -44,47 +44,18 @@ end
 The `facebook.yml` file in `config/apis`:
 
 ```yaml
-id: 219868431409649
+identifier: 219868431409649
 secret: 7e5699f155df01d8e52b35c01dccd627
-url: http://localhost:3000
+site_url: http://localhost:3000
 default_permissions: ["publish_stream", "read_stream", "email"]
+callback_path: '/home/callback'
 ```
 
-And here how to load it into the AppConfig singleton.
+Note that the `site_url` is the url of your site hosting the external Facebook app integration, fx: `www.mycoolapp.com`.
 
-```ruby
-class MyCool
-	class FacebookAppConfig
-		include Singleton
+See the `config_loader` or 'config-file-loader' gem for a nice way to load these yaml config values into a global `App` object of some kind.
 
-		def loader
-			@loader ||= ConfigLoader::Yaml.new 'apis', 'facebook.yml'
-		end
-
-		def secret
-			loader.load.secret
-		end
-	end
-end
-```
-
-Or using the special Delegator module included. This module requires a #config method to be defined like so:
-
-```ruby
-class MyCool
-	class FacebookAppConfig
-		include Singleton
-		include ConfigLoader::Delegator
-
-		def config
-			@config ||= ConfigLoader::Yaml.new 'apis', 'facebook.yml'
-		end
-	end
-end
-```
-
-Here a call to any method not defined on this app config, will be delegated to the loader, which returns the yaml as a Hashie for direct method access.
-This would allow you to:
+Configuring this would allow you to do something like:
 
 `Facebook.app.secret` # => value loaded from 'secret' entry in facebook.yml
 
@@ -97,7 +68,7 @@ class CampaignController < ApplicationController
 	include Facebook::Access::Helper
 
   def signup
-  	fb_login
+  	fb_login!
   end
 end
 ```
@@ -111,16 +82,23 @@ Some of the key methods made available are:
 * signed_request
 * registration
 
-You can now access the Facebook graph API for the current (session) user.
+You can access the Facebook graph API for the current (session) user.
 
-For this to work, it requires a previous Facebook login which can be done fx via the Facebook login button (see fx 'facebook-social_plugins' gem). Alternatively use OAuth directly.
+For this to work, it requires a previous Facebook login which can be done fx via the Facebook login button (see fx 'facebook-social_plugins' gem). Alternatively use OAuth directly, fx by using the `fb_login!` method.
+
+Note: You can use the `after_authenticate_new_user(user)` hook method to fx add the authenticated user to the session for the `current_user` or similar method.
+
+## Debugging and logging
+
+You can set the `Facebook::Starterkit.logging_on!` in order to get some logging/debugging output while using the Starterkit. By default, logging is turned off. You can also turn it off using ``Facebook::Starterkit.logging_off!`
 
 ## Facebook Graph API
 
-The `fb_graph` method returns a class with some nice convenience methods. The 
-graph api used is `Koala::Facebook::GraphAndRestAPI` from the `joey` gem, which uses Hashie (see `hashie gem) under the covers for easy access into the hashes returned.
+The `fb_graph` method returns a class with some nice convenience methods. The graph api used is `Koala::Facebook::API` from the `koala` gem.
 
 * me
+
+The me method call get_object('me') on the GraphAPI and converts the returned `Hash` into a `Hashie` for easy method access (using `method_missing`). 
 
 The following methods are all prefixed with 'my_'
 
@@ -245,12 +223,26 @@ rake db:migrate
 In your `routes.rb file
 
 ```ruby
-match 'facebook/registration' => 'registrations#create', :as => :new_user_registration
+match 'auth/:provider/registration' => 'registrations#create', :as => :registration
 
 # See http://railscasts.com/episodes/235-omniauth-part-1
 match 'auth/:provider/callback' => 'authentications#create'
 ```
 
+The `:provider` param can be accessed in the controller via `params[:provider]`.
+Note that the method `auth_provider` is already defined to return this value or default to `'facebook'`.
+
+You can then use the route like this:
+
+```haml
+= link_to "Register with Facebook", registration_path('facebook')
+```
+
+Or perhaps like this:
+
+```haml
+= button_to "", registration_path('facebook'), :class => "facebook_button"
+``
 ## Contributing to facebook-rails-starterkit
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.

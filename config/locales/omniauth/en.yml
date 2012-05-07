@@ -1,0 +1,6 @@
+en:
+  facebook:
+    auth:
+      signed_in: Signed in with Facebook
+      success: Facebook login success
+      destroyed: Logged out from Facebook

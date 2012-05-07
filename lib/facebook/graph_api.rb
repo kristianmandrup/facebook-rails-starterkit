@@ -1,18 +1,35 @@
 module Facebook
+	def self.api
+		::Koala::Facebook::API
+	end
+
+	def self.updates_api
+		::Koala::Facebook::RealtimeUpdates
+	end
+
 	class GraphApi
-		attr_reader :api, :access_token
+		attr_reader :fb_api, :access_token
 
 		def initialize session
 			@access_token = session[:access_token]
-			@api = Koala::Facebook::GraphAndRestAPI.new(access_token)			
+			log! 'GraphApi access_token', @access_token
+			@fb_api =  ::Facebook.api.new(access_token)			
 		end
+
+		def api
+			@api ||= fb_api
+		end
+
+		def self.clazz
+    	::Facebook.api
+    end
 
 		# also see https://developers.facebook.com/docs/reference/fql/
 		# The Facebook Query Language for more efficient complex queries
 		# Also enables Multi-query
 
 	  def me
-	    @me ||= api.me
+	    @me ||= ::Hashie::Mash.new api.get_object('me')
 	  end
 
 	  # my_id, my_email ...
@@ -39,6 +56,17 @@ module Facebook
 
 	  def post_on_wall message
 	    api.put_wall_post message
-	  end		
+	  end
+
+	  protected
+
+  	def log! title, msg
+      msg = msg.kind_of?(String) ? msg : msg.inspect
+      puts "#{title}: #{msg}" if logging?
+    end
+
+    def logging?
+      Facebook::Starterkit.logging?
+    end
 	end
 end

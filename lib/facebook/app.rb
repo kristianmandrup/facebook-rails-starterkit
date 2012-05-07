@@ -14,20 +14,7 @@ module Facebook
 
 		attr_accessor :fb_app
 
-		def id
-			fb_app.id
-		end
-
-		def secret_key
-			fb_app.secret
-		end
-
-		def site_url
-			fb_app.url
-		end		
-
-	  def fb_default_permissions
-	    fb_app.default_permissions
-	  end
+		delegate :identifier, :secret, :site_url, :default_permissions, 
+						 :callback_path, :to => :fb_app #, :allow_nil => true
 	end
 end
