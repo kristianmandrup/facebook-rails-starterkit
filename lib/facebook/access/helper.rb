@@ -13,13 +13,15 @@ module Facebook
       def fb_login permissions = nil
         session[:oauth] = oauth_api.new(fb_app.identifier, fb_app.secret, fb_app.site_url + fb_app.callback_path)                
         log! 'session-oath', session[:oauth]
-        @auth_url =  session[:oauth].url_for_oauth_code(:permissions=> permissions || fb_app.default_permissions)
-        log! 'auth_url', @auth_url
       end
 
       def fb_login! permissions = nil
         fb_login permissions
         redirect_to auth_url        
+      end
+
+      def auth_url 
+        @auth_url ||= session[:oauth].url_for_oauth_code(:permissions=> permissions || fb_app.default_permissions)
       end
 
       def cookies_access_token

@@ -14,7 +14,13 @@ module Facebook
 
 		attr_accessor :fb_app
 
-		delegate :identifier, :secret, :site_url, :default_permissions, 
+		delegate :identifier, :secret, :site_url, 
 						 :callback_path, :to => :fb_app #, :allow_nil => true
+
+		# comma separated list
+		# 'email,user_birthday,read_stream
+		def permissions
+			@permissions ||= fb_app.permissions.flatten.join(',')
+		end
 	end
 end

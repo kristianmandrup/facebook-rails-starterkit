@@ -68,7 +68,11 @@ class CampaignController < ApplicationController
 	include Facebook::Access::Helper
 
   def signup
-  	fb_login!
+  	authenticate!
+  end
+
+  def authenticate!
+    fb_login!
   end
 end
 ```
@@ -135,7 +139,10 @@ can override the `new_user` method if you need to.
 	end
 ```
 
-Then simply include the `Facebook::Auth::Devise` module in your controller.
+There is a `Facebook::Auth::Basic` module for basic authentication flow.
+The module `Facebook::Auth::Devise` provides a Devise specific implementation of basic, by overriding the `authenticated` method.
+
+If you are using Devise, simply include the `Facebook::Auth::Devise` module in your controller.
 
 ```ruby
 class AuthenticationsController < InheritedResources::Base
